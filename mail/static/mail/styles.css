@@ -1,0 +1,11 @@
+textarea {
+    min-height: 400px;
+}
+
+.gray-background-subject{
+    background-color: gray;
+}
+
+.white-background-subject{
+    background-color: white;
+}
