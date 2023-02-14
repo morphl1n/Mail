@@ -3,7 +3,7 @@
 ## The app has the following key features:
 
 1. Register and login functionality
-2  Inbox, sent, and archived mailboxes
+2. Inbox, sent, and archived mailboxes
 3. Ability to compose and send emails
 4. Archive and unarchive emails in the inbox
 5. View emails and reply to the sender
