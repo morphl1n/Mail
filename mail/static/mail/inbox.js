@@ -71,24 +71,13 @@ function submit(event){
         body: getBody
     })
   })
-  .then(response => {
-    if (!response.ok) {
-        throw response;
-    }
-    return response.json();
-})
+  .then(response => response.json())
   .then(result => {
-      // Print result
+
       console.log(result);
       load_mailbox('sent');
   })
 
-  .catch(error => {
-    error.json().then(errorMessage => {
-        console.error(errorMessage);
-        alert(errorMessage.error);
-    });
-});
 
 
 };
@@ -141,7 +130,7 @@ function fetchMail(mailBox){
           sentInboxContainer.append(sentElementSubject);
 
 
-           //if mail is unread make it's subjectline background gray, else make it white
+           //if mail is unread make it gray, else make it white
 
            if(email[i].read == true){
             sentInboxContainer.className = 'alert alert-secondary';
@@ -209,7 +198,10 @@ function fetchMail(mailBox){
          archiveButton.classList.add("btn", "btn-secondary");
          archiveButton.innerHTML = 'Archive';
          mainInboxContainer.append(archiveButton);
-         archiveButton.addEventListener('click', () => archive(element.id));
+         archiveButton.addEventListener('click', (event) => {
+          //i have whole container div clickable, so i need to exclude this button
+          event.stopPropagation(); 
+          archive(element.id)});
 
         })
         
@@ -262,11 +254,13 @@ function fetchMail(mailBox){
 
 
          //add archive button
-         const archiveButton = document.createElement('button');
-         archiveButton.classList.add("btn", "btn-secondary");
-         archiveButton.innerHTML = 'Unarchive';
-         mainArchiveContainer.append(archiveButton);
-         archiveButton.addEventListener('click', () => unArchive(element.id));
+        const archiveButton = document.createElement('button');
+        archiveButton.classList.add("btn", "btn-secondary");
+        archiveButton.innerHTML = 'Unarchive';
+        mainArchiveContainer.append(archiveButton);
+        archiveButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        unArchive(element.id)});
 
         })
 
@@ -324,14 +318,7 @@ function archive(elementID){
         archived: true
     })
   })
-  .then(response => {
-    if (response.ok) {
-      load_mailbox('inbox');
-    } else {
-      console.error('Error archiving email:', response.statusText);
-    }
-
-  })  
+  .then(response => load_mailbox('inbox'))  
   
 }
 // marking email Unarchived
@@ -342,14 +329,7 @@ function unArchive(elementID){
         archived: false
     })
   })
-  .then(response => {
-    if (response.ok) {
-      load_mailbox('archive');
-    } else {
-      console.error('Error unarchiving email:', response.statusText);
-    }
-
-  })  
+  .then(response => load_mailbox('archive'))  
 }
 
 function reply(emailID){
@@ -365,7 +345,7 @@ function reply(emailID){
     fetch(`/emails/${emailID}`)
     .then(response => response.json())
     .then(email => {
-        // Print email
+        
         console.log(email);
         document.querySelector('#compose-recipients').value = email.sender;
         if(email.subject.slice(0, 3).toLowerCase() != 're:'){
@@ -376,7 +356,7 @@ function reply(emailID){
         document.querySelector('#compose-body').value = `On: ${email.timestamp}, ${email.sender} wrote: ${email.body}`;
 
 
-        // ... do something else with email ...
+        
     });
   
 }
