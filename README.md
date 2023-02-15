@@ -1,5 +1,7 @@
 # This project is a single-page app called Mail, which showcases my JavaScript skills. The app uses JavaScript's fetching capabilities to load every inbox. Database interactions are handled through GET, POST, and PUT methods.
 
+# [Visit Live App](https://mail-app.herokuapp.com/)
+
 ## The app has the following key features:
 
 1. Register and login functionality
